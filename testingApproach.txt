@@ -1,0 +1,34 @@
+Research:
+
+1) Worked in Excel Sheet to understand how Moving average works.
+2) Explored what best options available in python and Spark.
+3) Referred https://www.linkedin.com/pulse/time-series-moving-average-apache-pyspark-laurent-weichberger/
+
+
+Learning and Testing.
+
+1) Understanding about window functions that spark sql has.
+2) Explored a couple of options about providing test data to the program.
+3) Used Spark-Shell to test for sample data.
+
+Spark-Shell Commands:
+
+Steps:
+1) Launch pyspark in local mode.
+2) a sparksession is readily available at sparkshell, get the session.
+3) Create a dataframe by loading data from local drive, fill up the columns that's got none values with null, and treat null as null.
+4) Basic sanity checks to eleminate null and none values from the data frame.
+5) Create a window of 3 and partition by the company name to enhance the performance
+6) check for the output on the terminal.
+
+pseudo code:
+
+pyspark2 --master local
+from pyspark.sql import SparkSession, functions as func
+from pyspark.sql.window import window
+session = SparkSession.builder.appName("MovingAverages").getOrCreate()
+df = sparksession.read.option("header", "true").option("inferSchema", value = True).option("nullValue", "null").option("treatEmptyValuesAsNulls", "true").csv("file:///<<Path to the file on local drive>>")
+movingAverage_df = df.filter(df.StockValue1.isNotNull())
+windowSpec = Window.partitionBy("StockName").orderBy("StockName").rowsBetween(0,2)
+ouptu.df = movingAverage_df.withColumn("MovingAverage",func.avr('StockValue1').over(windowSpec))
+

@@ -1,0 +1,16 @@
+#s+${startWindow}+0+g
+#s+${endWindow}+2+g
+#s+${sourcefilePath1}+/Users/suhas/Desktop/movingaverages/in/stockprices1.csv+g
+#s+${outputFilePath1}+file:///Users/suhas/Desktop/movingaverages/out/movingaverages1+g
+#s+${sourcefilePath2}+/Users/suhas/Desktop/movingaverages/in/stockprices2.csv+g
+#s+${outputFilePath2}+file:///Users/suhas/Desktop/movingaverages/out/movingaverages2+g
+
+#Above are the values that I have tested in my machine, please change the paths accordingly.
+
+s+${startWindow}+0+g
+s+${endWindow}+2+g
+s+${sourcefilePath1}+<<<<<<<<<<Source Data Path on Local Machine>>>>>>>>+g
+s+${outputFilePath1}+<<<<<<<<<<Output Directory Path on Local Machine>>>>>>>>>>+g
+
+#s+${sourcefilePath2}+<<<<<<<<<<Source Data Path on Local Machine>>>>>>>>+g+g
+#s+${outputFilePath2}+<<<<<<<<<<Output Directory Path on Local Machine>>>>>>>>>>+g

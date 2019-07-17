@@ -1,0 +1,53 @@
+from pyspark.sql import SparkSession,functions as func
+from pyspark.sql.window import Window
+
+if __name__ == '__main__':
+	'''
+	App to Calculate the moving averages
+
+	'''
+	#Initialize a spark session
+	sparksession = SparkSession.builder.appName("MovingAverages").master("local[2]").getOrCreate()
+
+	#Process Sample Data 1 as per the Coding Excercise
+
+	#Create a dataframe by reading the input file. Replace any None or blank values in the csv to NULL.
+	df = sparksession.read \
+	.option("header", "true") \
+	.option("inferSchema", value = True) \
+	.option("nullValue", "null") \
+	.option("treatEmptyValuesAsNulls", "true") \
+	.csv("${sourcefilePath1}")
+
+	#create a moving average dataframe by excluding all the nulls from df dataframe
+	movingAverage_df = df.filter(df.StockPrice.isNotNull())
+
+	#Create a WindoSpec partition by Stock Name
+	windowSpec = Window \
+	.partitionBy("StockName") \
+	.orderBy("StockName") \
+	.rowsBetween(${startWindow}, ${endWindow})
+
+	#Calculate Moving Average
+	output_df = movingAverage_df.withColumn('MovingAverage', func.avg('StockPrice').over(windowSpec))
+	output_df.repartition(1).write.format("csv").option("header","true").save("${outputFilePath1}", mode = "overwrite")
+
+'''
+	#Process Sample Data 2 as per the Coding Excercise
+
+	df2 = sparksession.read \
+	.option("header", "true") \
+	.option("inferSchema", value = True) \
+	.option("nullValue", "null") \
+	.option("treatEmptyValuesAsNulls", "true") \
+	.csv("${sourcefilePath2}")
+
+	#create a moving average dataframe by excluding all the nulls from df dataframe
+	movingAverage_df2 = df2.filter(df2.StockPrice.isNotNull())
+
+	#Calculate Moving Average
+	output_df2 = movingAverage_df2.withColumn('MovingAverage', func.avg('StockPrice').over(windowSpec))
+	output_df2.repartition(1).write.format("csv").option("header","true").save("${outputFilePath2}", mode = "overwrite")
+'''
+	sparksession.stop()
+
